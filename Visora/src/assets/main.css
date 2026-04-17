@@ -1,0 +1,322 @@
+@import './base.css';
+
+
+body {
+  padding-top: 100px;
+}
+
+.navigationbar {
+  background-color: rgba(10, 61, 98, 1);
+  height: 100px;
+}
+
+.navbar-logo {
+  height: 90px;
+}
+
+.nav-link {
+  position: relative;
+  color: #fff;
+  text-decoration: none;
+  transition: color 0.3s ease;
+}
+
+.nav-item {
+    transition: transform 0.3s ease;
+}
+
+.nav-item:hover {
+    transform: translateY(-3px); 
+}
+  
+.hero-contain {
+  padding: 62px;
+  background: linear-gradient(
+    to left, 
+    rgba(10, 61, 98, 1),
+    rgba(0, 128, 128, 1)
+  );
+  background-size: 200% 200%;
+  animation: gradientMove 5s ease infinite;
+}
+
+@keyframes gradientMove {
+  0% {
+    background-position: left center;
+  }
+  50% { 
+    background-position: right center;
+  }
+  100% {
+    background-position: left center;
+  }
+}
+
+
+/* hero left code start */
+
+.hero-left { 
+  background: linear-gradient(
+    to bottom right,
+     rgba(249, 198, 210, 0.3),
+     rgba(1, 128, 128, 0.3)
+  );
+  width: 600px;
+  height: 557px;
+}
+
+.left-logo {
+  position: absolute;
+  margin-top: -30px;
+}
+
+.left-contain {
+  margin-top: 86px;
+}
+
+.left-contain h1 {
+  font-size: 45px;
+}
+
+.btn-hero-left {
+  position: absolute;
+  margin-top: 100px;
+}
+
+
+.tx-lebih-cepat {
+  color: #0A3D62;
+  margin-top: -15px;
+}
+
+/* hero left code end */
+/* hero right code start */
+
+.hero-right { 
+   width: 90%; 
+   height: 557px;
+}
+
+/* hero right code end */
+
+/* hero aboutus section start */
+
+.hero-about-section { 
+  padding: 62px;
+  background-color: #0A3D62;
+}
+
+.btn-about-left {
+  margin-top: 150px;
+}
+
+.about-left {
+  width: 100%;
+}
+
+.about-contain-lft {
+  margin-top: 110px;
+}
+
+.about-contain-lft h1 {
+  font-size: 48px;
+}
+
+.title-about {
+   display: flex;
+   justify-content: flex-end;
+   gap: 20px;
+}
+
+.title-about .line {
+  float: right;
+  margin-top: 15px;
+  width: 57px;
+  height: 3px;
+  background: #FFD700;
+}
+
+/* about code end */
+
+/* fitur code start */
+
+.card-fiture {
+  height: 334px;
+  width: 421px; 
+}
+
+.card-fiture img {
+  width: 72px;
+  height: 70px;
+}
+
+.card-fiture {
+  transition: all 0.3s ease-in-out;
+  cursor: pointer;
+}
+
+.card-fiture:hover {
+  transform: translateY(-10px) scale(1.03);
+  box-shadow: 0 15px 25px rgba(0, 0, 0, 0.2);
+}
+
+.card-fiture img {
+  transition: transform 0.3s ease-in-out;
+}
+
+.card-fiture:hover img {
+  transform: rotate(5deg) scale(1.1);
+}
+
+.card-fiture h5 {
+  transition: color 0.3s ease-in-out;
+}
+
+.card-fiture:hover h5 {
+  color: #FFD700;
+}
+
+/* fiture cade ends */
+
+/* Product content code start start*/
+
+.container-title {
+  background-color: #1B263B;
+  height: 245px;
+  padding: 65px;
+}
+
+.title {
+  font-size: 55px;
+  font-weight: 700;
+}
+
+.moving-text {
+  height: 65px;
+  letter-spacing: 1px;
+  padding: 17px;
+  font-weight: 700;
+  font-size: 18px;
+}
+
+.product-background {
+  margin-top: -10px;
+  background-color: rgba(10, 61, 98, 1);
+  height: 860px;
+}
+
+.card {
+  position: relative;
+  overflow: visible !important;
+}
+
+.most-popular-badge {
+  position: absolute;
+  top: -24px;      
+  left: 159px;      
+  z-index: 10;
+  width: 34%;
+  height: 35px;
+}
+
+.card-container {
+  width: 100%;
+}
+
+.most-popular-badge span {
+  font-size: 15px;
+  font-weight: 700;
+}
+
+.title-product {
+  font-size: 20px;
+}
+
+.btn-detail button {
+  margin-top: 20px;
+  border: none;
+  background-color: #FFD700;
+  height: 50px; 
+  width: 60%;
+  border-radius: 10px;
+  font-weight: 450;
+}
+/* Product content code start end*/
+
+
+/* login code start */
+.header-form p{
+  color: rgba(138, 168, 184, 1);
+}
+
+.title-login h1{
+  font-size: 89px;
+  font-weight: 700;
+  margin-top: 85px;
+}
+
+.login-background {
+  height: 100vh;
+  margin-top: -100px;
+    background: linear-gradient(
+    to top,
+    rgba(64, 155, 172, 1),
+    rgba(10, 61, 98, 1)
+  );
+}
+
+.img-fluid {
+  margin-top: -9px;
+  width: 750px;
+}
+
+.flex-1 {
+  flex: 1;
+}
+
+.login-form-container {
+  margin-top: 75px;
+  margin-left: 190px;
+}
+
+.login-form {
+  width: 443px;
+}
+
+.login-form span {
+  color: rgba(138, 168, 184, 1);
+}
+
+.login-button {
+  text-align: center;
+}
+
+.login-button button {
+  background-color: #0A3D62;
+  border: none;
+  width: 100%;
+  height: 73px;
+  color: white;
+  border-radius: 10px;
+  margin-top: 25px;
+  box-shadow: 0 7px 7px rgba(0,0,0,0.20); 
+}
+
+.signin-link {
+  margin-top: 100px;
+}
+
+.signin-link span {
+   color: rgba(138, 168, 184, 1);
+}
+/* Login code end */
+
+/* Signin code start */
+
+.signin-background {
+  margin-top: -100px;
+}
+
+
+
+/* Signin code end */
