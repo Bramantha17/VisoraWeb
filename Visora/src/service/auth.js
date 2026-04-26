@@ -6,8 +6,15 @@ export const register = async (data) => {
 }
 
 export const login = async (data) => {
-    const res = await api.post('/login', data)
-    return res.data
+  const res = await api.post('/login', data)
+
+  // ✅ store token
+  localStorage.setItem('token', res.data.token)
+
+  // optional (but good)
+  localStorage.setItem('user', JSON.stringify(res.data.user))
+
+  return res.data
 }
 
 // axios.post('/api/register', formData)
