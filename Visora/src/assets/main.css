@@ -857,7 +857,7 @@ body {
 
 .discount-badge {
   display: inline-block;
-  background: rgba(245, 197, 24, 0.12);
+  background: rgb(10, 61, 98, 80%);
   color: #f5c518;
   font-size: 12px;
   font-weight: 600;

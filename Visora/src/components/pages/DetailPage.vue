@@ -18,9 +18,9 @@ onMounted(async () => {
   <div class="my-5">
     <div class="row align-items-center">
       <div class="col-md-8 text-center">
-        <img 
-          :src="product.product_image_url" 
-          alt="Product image" 
+        <img
+          :src="product.product_image_url"
+          alt="Product image"
           class="img-fluid rounded"
           style="width: 407px; height: 577px;" />
       </div>
@@ -29,7 +29,7 @@ onMounted(async () => {
         <p v-html="product.product_description" class="text-muted"></p>
         <hr>
 
-        <h4 class="text-warning mt-4">Rp{{ product.product_price }}</h4>
+        <h4 class="text-warning mt-4">Rp{{ product.final_price }}</h4>
         <p>Stock: {{ product.product_stock }}</p>
 
         <a :href="product.product_link" target="_blank" class="btn btn-warning rounded-2 mt-3">

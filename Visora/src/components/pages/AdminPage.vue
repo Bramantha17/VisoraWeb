@@ -928,7 +928,7 @@ export default {
                   </div>
                 </td>
                 <td>
-                  <span class="price-badge">Rp {{ formatPrice(product.product_price) }}</span>
+                  <span class="price-badge">Rp {{ formatPrice(product.final_price) }}</span>
                 </td>
                 <td>
                   <span
