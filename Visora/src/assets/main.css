@@ -185,6 +185,13 @@ body {
 
 /* Product content code start start*/
 
+.line-clamp-3 {
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+
 .container-title {
   background-color: #1B263B;
   height: 245px;

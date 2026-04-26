@@ -13,39 +13,26 @@ onMounted(async () => {
 })
 </script>
 
-<!-- <template>
-    <div v-if="product.id" class="card p-4">
-        <h2>{{ product.product_name }}</h2>
-        <img 
-        :src="product.product_image_url" 
-        alt="Product image"
-        style="width: 264px; height: 396px;" />
-        <p v-html="product.product_description"></p>
-    </div>
-</template> -->
 
 <template>
-  <div class="container my-5">
+  <div class="my-5">
     <div class="row align-items-center">
-      <!-- Kolom kiri: gambar produk -->
-      <div class="col-md-6 text-center">
+      <div class="col-md-8 text-center">
         <img 
           :src="product.product_image_url" 
           alt="Product image" 
-          class="img-fluid rounded shadow"
-          style="max-height: 400px;"
-        />
+          class="img-fluid rounded"
+          style="width: 407px; height: 577px;" />
       </div>
-
-      <!-- Kolom kanan: deskripsi produk -->
-      <div class="col-md-6">
+      <div class="col-md-3">
         <h2 class="fw-bold mb-3">{{ product.product_name }}</h2>
         <p v-html="product.product_description" class="text-muted"></p>
+        <hr>
 
         <h4 class="text-warning mt-4">Rp{{ product.product_price }}</h4>
         <p>Stock: {{ product.product_stock }}</p>
 
-        <a :href="product.product_link" target="_blank" class="btn btn-warning rounded-4 mt-3">
+        <a :href="product.product_link" target="_blank" class="btn btn-warning rounded-2 mt-3">
           Hubungi Kami
         </a>
       </div>
