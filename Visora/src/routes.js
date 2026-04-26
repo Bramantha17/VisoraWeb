@@ -4,6 +4,7 @@ import LoginPage from "./components/pages/LoginPage.vue"
 import DefoultLayout from "./components/layouts/DefoultLayout.vue"
 import AuthLayout from "./components/layouts/AuthLayout.vue"
 import SigninPage from "./components/pages/SigninPage.vue"
+import AdminPage from "./components/pages/AdminPage.vue"
 
 export const routes = [
     {
@@ -26,6 +27,13 @@ export const routes = [
         component: AuthLayout,
         children: [
             {path: "", name: "signinpage", component: SigninPage}
+        ]
+    },
+    {
+        path: "/admin",
+        component: AuthLayout,
+        children: [
+            {path: "", name: "admin", component: AdminPage}
         ]
     }
 ]

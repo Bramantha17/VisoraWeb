@@ -8,7 +8,7 @@ defineProps({
 </script>
 
 <template>
-  <div class="product-background p-4 py-5">
+  <div class="p-4 py-3 ">
     <div class="row g-3">
       <div 
         v-for="(product, index) in products" 
@@ -27,19 +27,19 @@ defineProps({
             {{ product.product_name }}
           </h4>
           <img 
-          :src="product.product_image_url " 
+          :src="product.product_image_url" 
           class="mb-3 container"
           alt="productImage"
           style="width: 264px; height: 396px;"
           />
-          <p class="text-muted">
-            {{ product.product_description }}
-          </p>
-          <div class="p-3 mt-auto btn-detail rounded-4">
-            <button>Detail</button>
-          </div>
+          <p class="text-muted" v-html="product.product_description"></p>
+          <RouterLink>
+            <div class="p-3 mt-auto btn-detail rounded-4">
+              <button>Detail</button>
+            </div>
+          </RouterLink>
         </div>
       </div>
-    </div>
+    </div>  
   </div>
 </template>
