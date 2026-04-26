@@ -35,6 +35,17 @@ export const routes = [
         children: [
             {path: "", name: "admin", component: AdminPage}
         ]
+    },
+    {
+        path: "/products/:id",
+        component: DefoultLayout,
+        children: [
+            {
+                path: "",
+                name: "ProductDetail",
+                component: () => import('@/components/pages/DetailPage.vue')
+            }
+        ]
     }
 ]
 

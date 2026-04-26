@@ -33,7 +33,7 @@ defineProps({
           style="width: 264px; height: 396px;"
           />
           <p class="text-muted" v-html="product.product_description"></p>
-          <RouterLink>
+          <RouterLink :to="`/products/${product.id}`">
             <div class="p-3 mt-auto btn-detail rounded-4">
               <button>Detail</button>
             </div>
