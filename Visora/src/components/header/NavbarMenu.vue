@@ -20,7 +20,7 @@
         </li>
         <li class="nav-item fs-5 fw=bold" type="button">
             <router-link
-            to=""
+            to="/contactus"
             class="nav-link text-light"
             >Contact us</router-link>
         </li>

@@ -10,6 +10,11 @@ body {
   height: 100px;
 }
 
+.profile {
+  background: none;
+  border: none;
+}
+
 .navbar-logo {
   height: 90px;
 }
@@ -26,13 +31,13 @@ body {
 }
 
 .nav-item:hover {
-    transform: translateY(-3px);
+    transform: translateY(-3px); 
 }
-
+  
 .hero-contain {
   padding: 62px;
   background: linear-gradient(
-    to left,
+    to left, 
     rgba(10, 61, 98, 1),
     rgba(0, 128, 128, 1)
   );
@@ -44,7 +49,7 @@ body {
   0% {
     background-position: left center;
   }
-  50% {
+  50% { 
     background-position: right center;
   }
   100% {
@@ -55,7 +60,7 @@ body {
 
 /* hero left code start */
 
-.hero-left {
+.hero-left { 
   background: linear-gradient(
     to bottom right,
      rgba(249, 198, 210, 0.3),
@@ -92,8 +97,8 @@ body {
 /* hero left code end */
 /* hero right code start */
 
-.hero-right {
-   width: 90%;
+.hero-right { 
+   width: 90%; 
    height: 557px;
 }
 
@@ -101,7 +106,7 @@ body {
 
 /* hero aboutus section start */
 
-.hero-about-section {
+.hero-about-section { 
   padding: 62px;
   background-color: #0A3D62;
 }
@@ -142,7 +147,7 @@ body {
 
 .card-fiture {
   height: 334px;
-  width: 421px;
+  width: 421px; 
 }
 
 .card-fiture img {
@@ -185,12 +190,6 @@ body {
 
 /* Product content code start start*/
 
-.line-clamp-3 {
-  display: -webkit-box;
-  -webkit-box-orient: vertical;
-  overflow: hidden;
-}
-
 
 .container-title {
   background-color: #1B263B;
@@ -222,8 +221,8 @@ body {
 
 .most-popular-badge {
   position: absolute;
-  top: -24px;
-  left: 159px;
+  top: -24px;      
+  left: 140px;      
   z-index: 10;
   width: 34%;
   height: 35px;
@@ -246,7 +245,7 @@ body {
   margin-top: 20px;
   border: none;
   background-color: #FFD700;
-  height: 50px;
+  height: 50px; 
   width: 60%;
   border-radius: 10px;
   font-weight: 450;
@@ -309,7 +308,7 @@ body {
   color: white;
   border-radius: 10px;
   margin-top: 25px;
-  box-shadow: 0 7px 7px rgba(0,0,0,0.20);
+  box-shadow: 0 7px 7px rgba(0,0,0,0.20); 
 }
 
 .signin-link {
@@ -326,7 +325,6 @@ body {
 .signin-background {
   margin-top: -100px;
 }
-
 
 
 /* Signin code end */

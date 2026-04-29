@@ -39,9 +39,17 @@ const handleLogout = () => {
     </RouterLink>
   </div>
 
-  <div v-else class="d-flex ms-3 align-items-center gap-2">
-    <button class="btn btn-success">Profile</button>
-    <button class="btn btn-danger" @click="handleLogout">Logout</button>
+  <div v-else>
+    <div class="dropdown p-3">
+      <button class="profile text-light dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+        Profile
+      </button>
+      <ul class="dropdown-menu">
+        <li><a class="dropdown-item" href="#">Action</a></li>
+        <li><a class="dropdown-item" href="#">Another action</a></li>
+        <li><a class="dropdown-item" href="#" @click="handleLogout">Logout</a></li>
+      </ul>
+    </div>
   </div>
 </div>
 </template>

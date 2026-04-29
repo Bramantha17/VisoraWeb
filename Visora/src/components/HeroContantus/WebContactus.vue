@@ -7,8 +7,8 @@ import HeroContactus from './HeroContactus.vue';
   <div class="position-relative p-5" style="background-color: rgba(10, 61, 98, 1);">
     <div class="position-absolute top-49 start-0 w-100 h-100 overflow-hidden">
       <svg
-        width="100%"
-        height="105%"
+        width="114%"
+        height="94%"
         viewBox="0 0 1440 590"
         xmlns="http://www.w3.org/2000/svg"
       >
@@ -26,7 +26,7 @@ import HeroContactus from './HeroContactus.vue';
         >
           <animate
             attributeName="d"
-            dur="5s"
+            dur="11s"
             repeatCount="indefinite"
             values="
               M0,600 L0,150 C133,175 267,199 434,184 C600,169 800,114 973,102 C1146,90 1293,120 1440,150 L1440,600 L0,600 Z;
@@ -39,6 +39,6 @@ import HeroContactus from './HeroContactus.vue';
     </div>
     <div class="position-relative">
       <HeroContactus />
-    </div>
+    </div>    
   </div>
 </template>

@@ -1,3 +1,9 @@
+<script setup>
+function goWhatsApp() {
+  window.open("https://wa.me/6283119620013", "_blank")
+}
+</script>
+
 <template>
   <div class="mb-5 ">
     <div class="text-center pb-5">
@@ -19,7 +25,7 @@
                         <img src="@/assets/image/WhatsApp_logo.png" style="height: 90px; width: 90px;" class="mb-3 img-fluid" alt="Sales">
                         <h2 class="card-title">Chat Sales via WhatsApp</h2>
                         <p class="card-text">Diskusi harga, paket, atau demo produk langsung dengan tim kami.</p>
-                        <button class="btn btn-warning" style="width: 40%;">Mulai Chat</button>
+                        <button class="btn btn-warning" style="width: 40%;" @click="goWhatsApp">Mulai Chat</button>
                         <h6 class="mt-2">Senin-Jumat, 09.00-17.00</h6>
                     </div>
                 </div>
@@ -30,7 +36,7 @@
                         <img src="@/assets/image/WhatsApp_logo.png" style="height: 90px; width: 90px;" class="mb-3 img-fluid" alt="Support">
                         <h2 class="card-title">Chat Support via WhatsApp</h2>
                         <p class="card-text">Laporkan kendala teknis atau minta panduan penggunaan ke kami.</p>
-                        <button style="background-color: #409BAC; color: #FFD300; width: 40%;" class="btn">Mulai Chat</button>
+                        <button style="background-color: #409BAC; color: #FFD300; width: 40%;" class="btn" @click="goWhatsApp">Mulai Chat</button>
                         <h6 class="mt-2">Senin-Jumat, 09.00-17.00</h6>
                     </div>
                 </div>
