@@ -20,15 +20,15 @@ const handleRegister = async (formData) => {
     alert('Register gagal')
   }
 }
-</script> 
+</script>
 
 <template>
-  <div class="d-flex signin-background">
+  <div class="d-flex login-background">
     <div>
-      <SigninForm @submit="handleRegister"></SigninForm>
+      <SigninWave class="flex-1"></SigninWave>
     </div>
     <div>
-      <SigninWave></SigninWave>
+      <SigninForm class="flex-1" @submit="handleRegister"></SigninForm>
     </div>
   </div>
 </template>

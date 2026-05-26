@@ -7,6 +7,7 @@ import SigninPage from "./components/pages/SigninPage.vue"
 import AdminPage from "./components/pages/AdminPage.vue"
 import AdminLayout from '@/components/layouts/AdminLayout.vue'
 import ContactusPage from "./components/pages/ContactusPage.vue"
+import AboutusPage from "./components/pages/AboutusPage.vue"
 
 export const routes = [
     {
@@ -15,7 +16,8 @@ export const routes = [
         children: [
             {path: "", name: "homepage", component: HomePage},
             {path: "productpage", component: ProductPage},
-            {path: "contactus", component: ContactusPage}
+            {path: "contactus", component: ContactusPage},
+            {path: "aboutus", component:AboutusPage}
         ]
     },
     {
@@ -35,8 +37,13 @@ export const routes = [
     {
         path: "/admin",
         component: AdminLayout,
+        meta: { requiresAuth: true, requiresAdmin: true }, 
         children: [
-            {path: "", name: "admin", component: AdminPage}
+            {
+                path: "",
+                name: "adminpage",
+                component: AdminPage  
+            }
         ]
     },
     {
@@ -51,5 +58,6 @@ export const routes = [
         ]
     }
 ]
+
 
 

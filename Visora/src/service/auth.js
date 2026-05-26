@@ -7,16 +7,42 @@ export const register = async (data) => {
 
 export const login = async (data) => {
   const res = await api.post('/login', data)
-
-  // ✅ store token
+  console.log(res.data)
   localStorage.setItem('token', res.data.token)
-
-  // optional (but good)
   localStorage.setItem('user', JSON.stringify(res.data.user))
 
   return res.data
 }
 
+// export default {
+//   state: {
+//     user: JSON.parse(localStorage.getItem('user')) || null,
+//     token: localStorage.getItem('token') || null
+//   },
+//   mutations: {
+//     setUser(state, payload) {
+//       state.user = payload.user
+//       state.token = payload.token
+//       localStorage.setItem('token', payload.token)
+//       localStorage.setItem('user', JSON.stringify(payload.user))
+//     },
+//   }
+// }
+
+export default {
+  state: {
+    user: JSON.parse(localStorage.getItem('user')) || null,
+    token: localStorage.getItem('token') || null
+  },
+  mutations: {
+    setUser(state, payload) {
+      state.user = payload.user
+      state.token = payload.token
+      localStorage.setItem('token', payload.token)
+      localStorage.setItem('user', JSON.stringify(payload.user))
+    },
+  }
+}
 // axios.post('/api/register', formData)
 //   .then(response => {
 //     const token = response.data.token;

@@ -14,7 +14,7 @@
         </li>
         <li class="nav-item fs-5 fw=bold" type="button">
             <router-link
-            to=""
+            to="/aboutus"
             class="nav-link text-light"
             >About us</router-link>
         </li>

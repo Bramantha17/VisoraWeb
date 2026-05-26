@@ -20,6 +20,7 @@
     "@fortawesome/vue-fontawesome": "^3.2.0",
     "axios": "^1.13.5",
     "bootstrap": "^5.3.8",
+    "quill": "^2.0.3",
     "vue": "^3.5.29",
     "vue-router": "^4.6.4",
     "vuex": "^4.1.0"

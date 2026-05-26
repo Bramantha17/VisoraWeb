@@ -16,15 +16,22 @@ const handleLogin = async () => {
       password: password.value
     })
     console.log('RESPONSE:', response)
-    const token = response?.data?.token
+    const token = response.token
+    const user = response.user
 
     if (rememberMe.value) {
       localStorage.setItem('token', token)
+      localStorage.setItem('user', JSON.stringify(user))
     } else {
       sessionStorage.setItem('token', token)
+      sessionStorage.setItem('user', JSON.stringify(user))
     }
 
-    router.push('/')
+    if (user?.role === 'admin') {
+      router.push('/admin')
+    } else {
+      router.push('/')
+    }
 
   } catch (error) {
     console.log(error)
@@ -43,34 +50,34 @@ const handleLogin = async () => {
     <div class="login-form">
         <span class="d-block mb-2">Email</span>
         <div class="form-floating mb-4">
-            <input 
-            v-model="email" 
-            type="email" class="form-control shadow-lg" 
+            <input
+            v-model="email"
+            type="email" class="form-control shadow-lg"
             id="floatingInput" placeholder="name@example.com">
             <label for="floatingInput">Visora27@gmail.com</label>
         </div>
         <span class="d-block mb-2">Password</span>
         <div class="form-floating mb-5">
-            <input 
-            v-model="password"  
-            type="password"  
-            class="form-control shadow-lg" 
-            id="floatingInput" 
+            <input
+            v-model="password"
+            type="password"
+            class="form-control shadow-lg"
+            id="floatingInput"
             placeholder="Password kamu!">
             <label for="floatingInput">Visora123</label>
-        </div>  
+        </div>
     </div>
 
     <div class="options d-flex justify-content-between align-items-center mb-4">
       <div class="form-check">
-        <input 
-        type="checkbox" 
-        class="form-check-input" 
+        <input
+        type="checkbox"
+        class="form-check-input"
         v-model="rememberMe"
         id="rememberCheck"
         >
-        <label 
-        class="form-check-label" 
+        <label
+        class="form-check-label"
         for="rememberCheck">
           Ingatkan Saya
         </label>

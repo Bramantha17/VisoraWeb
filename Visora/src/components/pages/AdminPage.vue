@@ -1,5 +1,7 @@
 <script>
 import { getProducts, createProduct, deleteProduct } from '@/service/productService.js'
+import Quill from 'quill'
+import 'quill/dist/quill.snow.css'
 import api from '@/service/api.js'
 
 // Laravel returns 422 with { errors: { field: [msg, ...] } }
@@ -20,6 +22,7 @@ export default {
 
   data() {
     return {
+      quill: null,
       activeTab: 'create',
       tabs: [
         {
@@ -93,6 +96,21 @@ export default {
   mounted() {
     this.fetchProducts()
   },
+
+  //quill text editor
+  mounted() {
+    const options = {
+      theme: 'snow',
+      modules: { toolbar: true },
+      placeholder: 'Tulis deskripsi produk...'
+    }
+
+    this.quill = new Quill(this.$refs.editor, options)
+    this.quill.on('text-change', () => {
+      this.createForm.product_description = this.quill.root.innerHTML
+    })
+  },
+  //quill text editor end
 
   watch: {
     // Refresh product list whenever user opens delete or update tab
@@ -497,10 +515,13 @@ export default {
               createErrors.product_link
             }}</span>
           </div>
-
+        
+          <div>
+            <label class="form-label">Deskripsi Produk <span class="req">*</span></label>
+            <div ref="editor"></div>
+          </div>
           <!-- Description -->
           <div class="form-group">
-            <label class="form-label">Deskripsi Produk <span class="req">*</span></label>
             <textarea
               v-model="createForm.product_description"
               class="form-input form-textarea"
