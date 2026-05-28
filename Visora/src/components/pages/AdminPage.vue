@@ -515,7 +515,7 @@ export default {
               createErrors.product_link
             }}</span>
           </div>
-        
+
           <div>
             <label class="form-label">Deskripsi Produk <span class="req">*</span></label>
             <div ref="editor"></div>
