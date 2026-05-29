@@ -96,15 +96,14 @@ export default {
   //quill text editor
   mounted() {
     this.fetchProducts()
-    const options = {
-      theme: 'snow',
-      modules: { toolbar: true },
-      placeholder: 'Tulis deskripsi produk...'
-    }
 
-    this.quill = new Quill(this.$refs.editor, options)
-    this.quill.on('text-change', () => {
-      this.createForm.product_description = this.quill.root.innerHTML
+    this.$nextTick(() => {
+      if (this.$refs.editor) {
+        this.quill = new Quill(this.$refs.editor, {
+          theme: 'snow',
+          modules: { toolbar: true }
+        })
+      }
     })
   },
   //quill text editor end
@@ -513,8 +512,8 @@ export default {
               createErrors.product_link
             }}</span>
           </div>
-          
-          
+
+
           <!-- Features -->
           <div class="form-group">
             <label class="form-label">Fitur Produk <span class="req">*</span></label>

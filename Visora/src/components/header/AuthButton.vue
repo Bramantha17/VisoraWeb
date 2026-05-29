@@ -35,7 +35,7 @@ const handleLogout = () => {
 
     <div v-else>
       <div class="dropdown p-3">
-        <button class="profile text-light dropdown-toggle" type="button"
+        <button class="profile text-light fs-5 text-capitalize dropdown-toggle" type="button"
           data-bs-toggle="dropdown" aria-expanded="false">
           {{ user?.first_name }}
         </button>
@@ -44,8 +44,6 @@ const handleLogout = () => {
             {{ user?.email }}
           </li>
           <li><hr class="dropdown-divider"></li>
-          <li><a class="dropdown-item" href="#">Action</a></li>
-          <li><a class="dropdown-item" href="#">Another action</a></li>
           <li><a class="dropdown-item" href="#" @click="handleLogout">Logout</a></li>
         </ul>
       </div>

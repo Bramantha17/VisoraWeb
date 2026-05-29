@@ -14,6 +14,14 @@ export const login = async (data) => {
   return res.data
 }
 
+export const forgotPassword = (data) => {
+  return api.post('/forgot-password', data).then(res => res.data)
+}
+
+export const resetPassword = (data) => {
+  return api.post('/reset-password', data).then(res => res.data)
+}
+
 // export default {
 //   state: {
 //     user: JSON.parse(localStorage.getItem('user')) || null,

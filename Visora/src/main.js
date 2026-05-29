@@ -1,11 +1,11 @@
 import './assets/main.css'
-import "bootstrap/dist/css/bootstrap.css"
-import "bootstrap/dist/js/bootstrap.js"
+import 'bootstrap/dist/css/bootstrap.css'
+import 'bootstrap/dist/js/bootstrap.js'
 import { createApp } from 'vue'
 import store from './service/store/index.js'
 import App from './App.vue'
-import { routes }  from './routes'
-import { createRouter, createWebHistory }  from 'vue-router'
+import { routes } from './routes'
+import { createRouter, createWebHistory } from 'vue-router'
 
 import Quill from 'quill'
 import 'quill/dist/quill.snow.css'
@@ -19,32 +19,36 @@ library.add(faUser, faFacebook, faInstagram, faXTwitter, faGithub)
 library.add(faEnvelope, faPhone, faLocationDot)
 
 const router = createRouter({
-    history: createWebHistory(),
-    routes,
+  history: createWebHistory(),
+  routes,
 })
-
-
-const app = createApp(App)
-app.component('font-awesome-icon', FontAwesomeIcon)
-app.config.globalProperties.$quill = Quill
-app.use(store)
-app.use(router)
-app.mount('#app')
 
 router.beforeEach((to, from, next) => {
   const user = JSON.parse(localStorage.getItem('user'))
   const token = localStorage.getItem('token')
 
-  const requiresAuth = to.matched.some(record => record.meta.requiresAuth)
-  const requiresAdmin = to.matched.some(record => record.meta.requiresAdmin)
+  const isAdmin = user?.role === 'admin'
+
+  const requiresAuth = to.matched.some((r) => r.meta.requiresAuth)
+  const requiresAdmin = to.matched.some((r) => r.meta.requiresAdmin)
 
   if (requiresAuth && !token) {
-    return next({ name: 'loginpage' })
+    return next('/loginpage')
   }
 
-  if (requiresAdmin && user?.role !== 'admin') {
-    return next({ name: 'homepage' })
+  if (requiresAdmin && !isAdmin) {
+    return next('/')
   }
 
   next()
 })
+
+const app = createApp(App)
+
+app.component('font-awesome-icon', FontAwesomeIcon)
+app.config.globalProperties.$quill = Quill
+
+app.use(store)
+app.use(router)
+
+app.mount('#app')
