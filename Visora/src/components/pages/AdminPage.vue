@@ -93,12 +93,9 @@ export default {
     },
   },
 
-  mounted() {
-    this.fetchProducts()
-  },
-
   //quill text editor
   mounted() {
+    this.fetchProducts()
     const options = {
       theme: 'snow',
       modules: { toolbar: true },
@@ -185,6 +182,7 @@ export default {
     validateCreate() {
       const errs = {}
       const f = this.createForm
+
       if (!f.product_name?.trim()) errs.product_name = 'Nama produk wajib diisi'
       if (f.product_price === '' || f.product_price === null)
         errs.product_price = 'Harga wajib diisi'
@@ -515,25 +513,8 @@ export default {
               createErrors.product_link
             }}</span>
           </div>
-        
-          <div>
-            <label class="form-label">Deskripsi Produk <span class="req">*</span></label>
-            <div ref="editor"></div>
-          </div>
-          <!-- Description -->
-          <div class="form-group">
-            <textarea
-              v-model="createForm.product_description"
-              class="form-input form-textarea"
-              :class="{ 'input-error': createErrors.product_description }"
-              placeholder="Deskripsikan fitur unggulan produk ini..."
-              rows="4"
-            ></textarea>
-            <span v-if="createErrors.product_description" class="error-msg">{{
-              createErrors.product_description
-            }}</span>
-          </div>
-
+          
+          
           <!-- Features -->
           <div class="form-group">
             <label class="form-label">Fitur Produk <span class="req">*</span></label>
