@@ -22,7 +22,8 @@ export default {
 
   data() {
     return {
-      quill: null,
+      createQuill: null,
+      updateQuill: null,
       activeTab: 'create',
       tabs: [
         {
@@ -93,29 +94,118 @@ export default {
     },
   },
 
-  //quill text editor
   mounted() {
     this.fetchProducts()
 
+    // Initialize Quill for the default active tab
     this.$nextTick(() => {
-      if (this.$refs.editor) {
-        this.quill = new Quill(this.$refs.editor, {
-          theme: 'snow',
-          modules: { toolbar: true }
-        })
+      if (this.activeTab === 'create') {
+        this.initQuill('create')
+      } else if (this.activeTab === 'update') {
+        this.initQuill('update')
       }
     })
   },
-  //quill text editor end
+
+  beforeUnmount() {
+    // Cleanup Quill instances
+    if (this.createQuill) {
+      this.createQuill.off('text-change')
+      this.createQuill = null
+    }
+    if (this.updateQuill) {
+      this.updateQuill.off('text-change')
+      this.updateQuill = null
+    }
+  },
 
   watch: {
-    // Refresh product list whenever user opens delete or update tab
     activeTab(val) {
-      if (val === 'delete' || val === 'update') this.fetchProducts()
+      if (val === 'delete' || val === 'update') {
+        this.fetchProducts()
+      }
+
+      this.$nextTick(() => {
+        if (val === 'create') {
+          this.initQuill('create')
+        } else if (val === 'update') {
+          this.initQuill('update')
+        }
+      })
+    },
+
+    selectedProductId() {
+      this.$nextTick(() => {
+        if (this.activeTab === 'update') {
+          this.initQuill('update')
+        }
+      })
     },
   },
 
   methods: {
+    getQuillConfig() {
+      return {
+        theme: 'snow',
+        placeholder: 'Tulis deskripsi produk di sini...',
+        modules: {
+          toolbar: [
+            [{ header: [1, 2, 3, 4, 5, 6, false] }],
+            [{ font: [] }],
+            [{ size: ['small', false, 'large', 'huge'] }],
+
+            ['bold', 'italic', 'underline', 'strike'],
+
+            [{ color: [] }, { background: [] }],
+
+            [{ script: 'sub' }, { script: 'super' }],
+
+            [{ list: 'ordered' }, { list: 'bullet' }, { list: 'check' }],
+            [{ indent: '-1' }, { indent: '+1' }],
+            [{ direction: 'rtl' }],
+
+            [{ align: [] }],
+
+            ['blockquote', 'code-block'],
+
+            ['link', 'image', 'video', 'formula'],
+
+            ['clean'],
+          ],
+        },
+      }
+    },
+
+    initQuill(mode) {
+      const refName = mode === 'create' ? 'createEditor' : 'editor'
+      const editorEl = this.$refs[refName]
+      if (!editorEl) return
+
+      const instanceKey = mode === 'create' ? 'createQuill' : 'updateQuill'
+      const formKey = mode === 'create' ? 'createForm' : 'updateForm'
+
+      // Cleanup previous instance
+      if (this[instanceKey]) {
+        this[instanceKey].off('text-change')
+        this[instanceKey] = null
+      }
+
+      // Clear old editor DOM
+      editorEl.innerHTML = ''
+
+      this[instanceKey] = new Quill(editorEl, this.getQuillConfig())
+
+      // Load current description into editor
+      if (this[formKey].product_description) {
+        this[instanceKey].root.innerHTML = this[formKey].product_description
+      }
+
+      // Sync editor content back to form data
+      this[instanceKey].on('text-change', () => {
+        this[formKey].product_description = this[instanceKey].root.innerHTML
+      })
+    },
+
     // ---- Fetch products (used by delete table + update dropdown) ----
     async fetchProducts() {
       this.productsLoading = true
@@ -187,7 +277,9 @@ export default {
         errs.product_price = 'Harga wajib diisi'
       if (f.product_stock === '' || f.product_stock === null)
         errs.product_stock = 'Stok wajib diisi'
-      if (!f.product_description?.trim()) errs.product_description = 'Deskripsi wajib diisi'
+      // Quill outputs <p><br></p> when empty, so check for actual text content
+      if (!f.product_description || f.product_description === '<p><br></p>' || !f.product_description.replace(/<[^>]*>/g, '').trim())
+        errs.product_description = 'Deskripsi wajib diisi'
       if (!f.product_feature.length || f.product_feature.every((feat) => !feat.trim()))
         errs.product_feature = 'Minimal satu fitur wajib diisi'
       if (!f.product_image) errs.product_image = 'Gambar produk wajib diunggah'
@@ -270,6 +362,10 @@ export default {
       this.createErrors = {}
       this.createImagePreview = null
       if (this.$refs.createImageInput) this.$refs.createImageInput.value = ''
+      // Clear Quill editor content
+      if (this.createQuill) {
+        this.createQuill.root.innerHTML = ''
+      }
     },
 
     // ---- UPDATE — PUT /api/products/{id} (with _method spoofing for multipart) ----
@@ -343,34 +439,21 @@ export default {
 
     resetUpdate() {
       this.loadProductForUpdate()
+      // Reload Quill editor content after reset
+      this.$nextTick(() => {
+        if (this.updateQuill && this.updateForm.product_description) {
+          this.updateQuill.root.innerHTML = this.updateForm.product_description
+        }
+      })
     },
 
     // ---- DELETE — DELETE /api/products/{id} ----
-    // confirmDelete(product) {
-    // this.deleteTarget = product
-    // this.deleteAlert = null
-    // },
-    //
-    // async executeDelete() {
-    // this.deleteLoading = true
-    // try {
-    // await deleteProduct(this.deleteTarget.id)
-    // this.products = this.products.filter(p => p.id !== this.deleteTarget.id)
-    // this.deleteTarget = null
-    // } catch (err) {
-    // this.deleteAlert = err?.response?.data?.message || 'Gagal menghapus produk. Silakan coba lagi.'
-    // } finally {
-    // this.deleteLoading = false
-    // }
-    // },
-
     async executeDelete(productId) {
       this.deleteLoading = true
       try {
         await deleteProduct(productId)
         this.products = this.products.filter((p) => p.id !== productId)
       } catch (err) {
-        // Instead of modal alert, you can use a toast or inline message
         alert(err?.response?.data?.message || 'Gagal menghapus produk. Silakan coba lagi.')
       } finally {
         this.deleteLoading = false
@@ -513,7 +596,6 @@ export default {
             }}</span>
           </div>
 
-
           <!-- Features -->
           <div class="form-group">
             <label class="form-label">Fitur Produk <span class="req">*</span></label>
@@ -554,6 +636,15 @@ export default {
             <span v-if="createErrors.product_feature" class="error-msg">{{
               createErrors.product_feature
             }}</span>
+          </div>
+
+          <!-- Product Description (Quill Editor) -->
+          <div class="form-group">
+            <label class="form-label">Deskripsi Produk <span class="req">*</span></label>
+            <div ref="createEditor" class="quill-editor"></div>
+            <span v-if="createErrors.product_description" class="error-msg">
+              {{ createErrors.product_description }}
+            </span>
           </div>
 
           <!-- Image Upload -->
@@ -737,17 +828,13 @@ export default {
           </div>
 
           <div class="form-group">
-            <label class="form-label">Deskripsi Produk</label>
-            <textarea
-              v-model="updateForm.product_description"
-              class="form-input form-textarea"
-              :class="{ 'input-error': updateErrors.product_description }"
-              placeholder="Deskripsi baru..."
-              rows="4"
-            ></textarea>
-            <span v-if="updateErrors.product_description" class="error-msg">{{
-              updateErrors.product_description
-            }}</span>
+            <label class="form-label"> Deskripsi Produk <span class="req">*</span> </label>
+
+            <div ref="editor" class="quill-editor"></div>
+
+            <span v-if="updateErrors.product_description" class="error-msg">
+              {{ updateErrors.product_description }}
+            </span>
           </div>
 
           <div class="form-group">
@@ -1010,3 +1097,320 @@ export default {
     </main>
   </div>
 </template>
+
+<style>
+/* ── Quill Editor — Custom Admin Theme ──────────────────────────── */
+
+.quill-editor {
+  min-height: 300px;
+  border-radius: 0 0 10px 10px;
+}
+
+/* Toolbar */
+.ql-toolbar.ql-snow {
+  display: flex !important;
+  flex-wrap: wrap;
+  gap: 2px;
+  background: linear-gradient(135deg, #1e1e2e 0%, #252540 100%);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 10px 10px 0 0;
+  padding: 10px 12px;
+}
+
+.ql-toolbar.ql-snow .ql-formats {
+  margin-right: 8px;
+  padding-right: 8px;
+  border-right: 1px solid rgba(255, 255, 255, 0.06);
+}
+
+.ql-toolbar.ql-snow .ql-formats:last-child {
+  border-right: none;
+  margin-right: 0;
+  padding-right: 0;
+}
+
+/* Toolbar buttons */
+.ql-toolbar.ql-snow button {
+  width: 30px;
+  height: 30px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 6px;
+  transition: all 0.15s ease;
+  color: rgba(255, 255, 255, 0.55);
+}
+
+.ql-toolbar.ql-snow button:hover {
+  background: rgba(255, 255, 255, 0.08);
+  color: #fff;
+}
+
+.ql-toolbar.ql-snow button.ql-active {
+  background: rgba(99, 102, 241, 0.25);
+  color: #818cf8;
+}
+
+/* Toolbar SVG strokes & fills */
+.ql-toolbar.ql-snow button .ql-stroke {
+  stroke: currentColor;
+}
+
+.ql-toolbar.ql-snow button .ql-fill,
+.ql-toolbar.ql-snow button .ql-stroke.ql-fill {
+  fill: currentColor;
+}
+
+.ql-toolbar.ql-snow button:hover .ql-stroke {
+  stroke: #fff;
+}
+
+.ql-toolbar.ql-snow button:hover .ql-fill,
+.ql-toolbar.ql-snow button:hover .ql-stroke.ql-fill {
+  fill: #fff;
+}
+
+.ql-toolbar.ql-snow button.ql-active .ql-stroke {
+  stroke: #818cf8;
+}
+
+.ql-toolbar.ql-snow button.ql-active .ql-fill,
+.ql-toolbar.ql-snow button.ql-active .ql-stroke.ql-fill {
+  fill: #818cf8;
+}
+
+/* Toolbar dropdowns (header, font, size, color, align, etc.) */
+.ql-toolbar.ql-snow .ql-picker {
+  color: rgba(255, 255, 255, 0.55);
+}
+
+.ql-toolbar.ql-snow .ql-picker-label {
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 6px;
+  padding: 2px 8px;
+  transition: all 0.15s ease;
+  color: rgba(255, 255, 255, 0.55);
+}
+
+.ql-toolbar.ql-snow .ql-picker-label:hover {
+  background: rgba(255, 255, 255, 0.06);
+  color: #fff;
+}
+
+.ql-toolbar.ql-snow .ql-picker-label .ql-stroke {
+  stroke: rgba(255, 255, 255, 0.55);
+}
+
+.ql-toolbar.ql-snow .ql-picker-label:hover .ql-stroke {
+  stroke: #fff;
+}
+
+.ql-toolbar.ql-snow .ql-picker.ql-expanded .ql-picker-label {
+  background: rgba(99, 102, 241, 0.15);
+  border-color: rgba(99, 102, 241, 0.3);
+  color: #818cf8;
+}
+
+.ql-toolbar.ql-snow .ql-picker.ql-expanded .ql-picker-label .ql-stroke {
+  stroke: #818cf8;
+}
+
+/* Dropdown options panel */
+.ql-toolbar.ql-snow .ql-picker-options {
+  background: #1e1e2e;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 8px;
+  padding: 6px;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.4);
+}
+
+.ql-toolbar.ql-snow .ql-picker-options .ql-picker-item {
+  color: rgba(255, 255, 255, 0.7);
+  border-radius: 4px;
+  padding: 4px 8px;
+}
+
+.ql-toolbar.ql-snow .ql-picker-options .ql-picker-item:hover {
+  background: rgba(99, 102, 241, 0.15);
+  color: #fff;
+}
+
+.ql-toolbar.ql-snow .ql-picker-options .ql-picker-item.ql-selected {
+  color: #818cf8;
+  background: rgba(99, 102, 241, 0.1);
+}
+
+/* Color picker specific */
+.ql-toolbar.ql-snow .ql-color-picker .ql-picker-options {
+  padding: 6px;
+  width: 180px;
+}
+
+/* Editor container */
+.ql-container.ql-snow {
+  min-height: 250px;
+  border: 1px solid rgba(0, 0, 0, 0.1);
+  border-top: none;
+  border-radius: 0 0 10px 10px;
+  background: #ffffff;
+  font-family: inherit;
+  font-size: 0.95rem;
+}
+
+/* Editor content area */
+.ql-editor {
+  min-height: 250px;
+  color: #111827;
+  line-height: 1.7;
+  padding: 16px 20px;
+}
+
+.ql-editor p {
+  color: #111827;
+}
+
+.ql-editor.ql-blank::before {
+  color: rgba(0, 0, 0, 0.4);
+  font-style: italic;
+}
+
+/* Styled content inside editor */
+.ql-editor * {
+  font-weight: inherit;
+  font-style: inherit;
+}
+
+.ql-editor strong,
+.ql-editor b {
+  font-weight: bold;
+}
+
+.ql-editor em,
+.ql-editor i {
+  font-style: italic;
+}
+
+.ql-editor u {
+  text-decoration: underline;
+}
+
+.ql-editor s {
+  text-decoration: line-through;
+}
+
+.ql-editor h1,
+.ql-editor h2,
+.ql-editor h3,
+.ql-editor h4,
+.ql-editor h5,
+.ql-editor h6 {
+  color: #111827;
+  margin-bottom: 0.5em;
+  font-weight: bold;
+}
+
+.ql-editor blockquote {
+  border-left: 3px solid #818cf8;
+  padding-left: 12px;
+  color: rgba(0, 0, 0, 0.6);
+  margin: 0.8em 0;
+}
+
+.ql-editor pre.ql-syntax {
+  background: #0d0d1a;
+  border: 1px solid rgba(255, 255, 255, 0.06);
+  border-radius: 8px;
+  color: #a5b4fc;
+  padding: 12px 16px;
+  font-family: 'JetBrains Mono', 'Fira Code', monospace;
+  font-size: 0.875rem;
+  overflow-x: auto;
+}
+
+.ql-editor a {
+  color: #818cf8;
+  text-decoration: underline;
+  text-underline-offset: 2px;
+}
+
+.ql-editor a:hover {
+  color: #a5b4fc;
+}
+
+.ql-editor img {
+  max-width: 100%;
+  border-radius: 8px;
+  margin: 0.5em 0;
+}
+
+.ql-editor ul,
+.ql-editor ol {
+  padding-left: 1.5em;
+}
+
+.ql-editor li {
+  margin-bottom: 0.25em;
+}
+
+/* Checklist items */
+.ql-editor ul[data-checked='true'] > li::before,
+.ql-editor ul[data-checked='false'] > li::before {
+  color: #818cf8;
+}
+
+/* Tooltip (link input, etc.) */
+.ql-snow .ql-tooltip {
+  background: #ffffff;
+  border: 1px solid rgba(0, 0, 0, 0.1);
+  border-radius: 8px;
+  color: rgba(0, 0, 0, 0.8);
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+  padding: 8px 14px;
+}
+
+.ql-snow .ql-tooltip input[type='text'] {
+  background: #f9fafb;
+  border: 1px solid #e5e7eb;
+  border-radius: 6px;
+  color: #111827;
+  padding: 4px 8px;
+  outline: none;
+}
+
+.ql-snow .ql-tooltip input[type='text']:focus {
+  border-color: #818cf8;
+}
+
+.ql-snow .ql-tooltip a.ql-action::after,
+.ql-snow .ql-tooltip a.ql-remove::before {
+  color: #818cf8;
+}
+
+.ql-snow .ql-tooltip a {
+  color: rgba(0, 0, 0, 0.6);
+}
+
+/* Scrollbar inside editor */
+.ql-editor::-webkit-scrollbar {
+  width: 6px;
+}
+
+.ql-editor::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+.ql-editor::-webkit-scrollbar-thumb {
+  background: rgba(255, 255, 255, 0.1);
+  border-radius: 3px;
+}
+
+.ql-editor::-webkit-scrollbar-thumb:hover {
+  background: rgba(255, 255, 255, 0.2);
+}
+
+/* Focus state for the whole editor wrapper */
+.ql-container.ql-snow:focus-within {
+  border-color: rgba(99, 102, 241, 0.4);
+  box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.08);
+}
+</style>

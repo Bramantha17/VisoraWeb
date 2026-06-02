@@ -38,9 +38,10 @@ function truncate(text, length) {
             alt="productImage"
             style="width: 264px; height: 396px"
           />
-          <p class="text-muted">
-            {{ truncate(stripHtml(product.product_description), 80) }}
-          </p>
+          <div 
+            class="text-muted text-start rich-text rich-text-clamp mb-3" 
+            v-html="product.product_description">
+          </div>
           <RouterLink :to="`/products/${product.id}`">
             <div class="p-3 mt-auto btn-detail rounded-4">
               <button>Detail</button>

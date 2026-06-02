@@ -26,11 +26,20 @@ onMounted(async () => {
       </div>
       <div class="col-md-3">
         <h2 class="fw-bold mb-3">{{ product.product_name }}</h2>
-        <p v-html="product.product_description" class="text-muted"></p>
+        <div v-html="product.product_description" class="text-muted rich-text text-start mb-4"></div>
         <hr>
 
         <h4 class="text-warning mt-4">Rp{{ product.final_price }}</h4>
         <p>Stock: {{ product.product_stock }}</p>
+
+        <div v-if="product.product_feature && product.product_feature.length > 0" class="mt-4 text-start">
+          <h5 class="fw-bold text-white mb-2">Fitur Utama:</h5>
+          <ul class="text-muted" style="padding-left: 1.5rem;">
+            <li v-for="(feature, index) in product.product_feature" :key="index" class="mb-2">
+              {{ feature }}
+            </li>
+          </ul>
+        </div>
 
         <a :href="product.product_link" target="_blank" class="btn btn-warning rounded-2 mt-3">
           Hubungi Kami

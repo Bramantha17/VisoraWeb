@@ -13,7 +13,7 @@ const handleLogin = async () => {
   try {
     const response = await login({
       email: email.value,
-      password: password.value
+      password: password.value,
     })
     console.log('RESPONSE:', response)
     const token = response.token
@@ -32,7 +32,6 @@ const handleLogin = async () => {
     } else {
       router.push('/')
     }
-
   } catch (error) {
     console.log(error)
     alert('Login gagal!')
@@ -48,41 +47,38 @@ const handleLogin = async () => {
     </div>
 
     <div class="login-form">
-        <span class="d-block mb-2">Email</span>
-        <div class="form-floating mb-4">
-            <input
-            v-model="email"
-            type="email" class="form-control shadow-lg"
-            id="floatingInput" placeholder="name@example.com">
-            <label for="floatingInput">Visora27@gmail.com</label>
-        </div>
-        <span class="d-block mb-2">Password</span>
-        <div class="form-floating mb-5">
-            <input
-            v-model="password"
-            type="password"
-            class="form-control shadow-lg"
-            id="floatingInput"
-            placeholder="Password kamu!">
-            <label for="floatingInput">Visora123</label>
-        </div>
+      <span class="d-block mb-2">Email</span>
+      <div class="form-floating mb-4">
+        <input
+          v-model="email"
+          type="email"
+          class="form-control shadow-lg"
+          id="floatingInput"
+          placeholder="name@example.com"
+        />
+        <label for="floatingInput">Visora27@gmail.com</label>
+      </div>
+      <span class="d-block mb-2">Password</span>
+      <div class="form-floating mb-5">
+        <input
+          v-model="password"
+          type="password"
+          class="form-control shadow-lg"
+          id="floatingInput"
+          placeholder="Password kamu!"
+        />
+        <label for="floatingInput">Visora123</label>
+      </div>
     </div>
 
     <div class="options d-flex justify-content-between align-items-center mb-4">
       <div class="form-check">
-        <input
-        type="checkbox"
-        class="form-check-input"
-        v-model="rememberMe"
-        id="rememberCheck"
-        >
-        <label
-        class="form-check-label"
-        for="rememberCheck">
-          Ingatkan Saya
-        </label>
+        <input type="checkbox" class="form-check-input" v-model="rememberMe" id="rememberCheck" />
+        <label class="form-check-label" for="rememberCheck"> Ingatkan Saya </label>
       </div>
-      <button class="btn text-decoration-none p-0">Lupa Sandi?</button>
+      <button class="btn text-decoration-none p-0" @click="router.push('/forgot-password')">
+        Lupa Sandi?
+      </button>
     </div>
 
     <div class="login-button">
@@ -92,7 +88,9 @@ const handleLogin = async () => {
     <div class="signin-link">
       <span class="me-2">New here?</span>
       <RouterLink to="/signinpage" class="text-decoration-none">
-          <button class="btn btn-link text-warning p-0 border-0 bg-transparent text-decoration-none">Signup</button>
+        <button class="btn btn-link text-warning p-0 border-0 bg-transparent text-decoration-none">
+          Signup
+        </button>
       </RouterLink>
     </div>
   </div>
