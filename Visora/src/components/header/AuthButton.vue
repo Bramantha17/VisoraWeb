@@ -10,9 +10,14 @@ const isLogin = computed(() => {
   return !!token
 })
 
+
 const handleLogout = () => {
   localStorage.removeItem('token')
+  localStorage.removeItem('user')
+
   sessionStorage.removeItem('token')
+  sessionStorage.removeItem('user')
+
   router.push('/')
   window.location.reload()
 }

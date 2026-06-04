@@ -19,7 +19,7 @@ const submitForm = () => {
 <template>
   <div class="signin-form-container text-light">
     <div class="header-form">
-      <h2 class="mb-3 fs-1">Signin</h2>
+      <h2 class="mb-3 fs-1">Sign in</h2>
       <p>Bergabung dengan kami sekarang!</p>
     </div>
 

@@ -1,4 +1,9 @@
-import { getProducts } from "@/service/productService"
+import {
+  getProducts,
+  getProductById,
+  createProduct,
+  updateProduct,
+  deleteProduct } from "@/service/productService"
 
 export default {
   namespaced: true,
@@ -29,7 +34,7 @@ export default {
     async getProductDetail({ commit }, id) {
       try {
         const data = await getProductById(id)
-        commit('setProductDetail', resizeBy.data)
+        commit('setProductDetail', data)
       } catch (err) {
         console.error(err)
       }

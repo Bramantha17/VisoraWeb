@@ -272,13 +272,17 @@ export default {
       const errs = {}
       const f = this.createForm
 
-      if (!f.product_name?.trim()) errs.product_name = 'Nama produk wajib diisi'
+      if (!f.product_name?.trim())
+        errs.product_name = 'Nama produk wajib diisi'
       if (f.product_price === '' || f.product_price === null)
         errs.product_price = 'Harga wajib diisi'
       if (f.product_stock === '' || f.product_stock === null)
         errs.product_stock = 'Stok wajib diisi'
+
       // Quill outputs <p><br></p> when empty, so check for actual text content
-      if (!f.product_description || f.product_description === '<p><br></p>' || !f.product_description.replace(/<[^>]*>/g, '').trim())
+
+      if (!f.product_description || f.product_description === '<p><br></p>' ||
+      !f.product_description.replace(/<[^>]*>/g, '').trim())
         errs.product_description = 'Deskripsi wajib diisi'
       if (!f.product_feature.length || f.product_feature.every((feat) => !feat.trim()))
         errs.product_feature = 'Minimal satu fitur wajib diisi'

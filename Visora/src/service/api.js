@@ -1,7 +1,7 @@
 import axios from 'axios';
 
 const api = axios.create({
-  baseURL: 'http://visora.test/api',
+  baseURL: 'https://visora-production-83d5.up.railway.app/api',
 })
 
 api.interceptors.response.use(

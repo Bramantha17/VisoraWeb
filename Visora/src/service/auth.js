@@ -22,21 +22,6 @@ export const resetPassword = (data) => {
   return api.post('/reset-password', data).then(res => res.data)
 }
 
-// export default {
-//   state: {
-//     user: JSON.parse(localStorage.getItem('user')) || null,
-//     token: localStorage.getItem('token') || null
-//   },
-//   mutations: {
-//     setUser(state, payload) {
-//       state.user = payload.user
-//       state.token = payload.token
-//       localStorage.setItem('token', payload.token)
-//       localStorage.setItem('user', JSON.stringify(payload.user))
-//     },
-//   }
-// }
-
 export default {
   state: {
     user: JSON.parse(localStorage.getItem('user')) || null,

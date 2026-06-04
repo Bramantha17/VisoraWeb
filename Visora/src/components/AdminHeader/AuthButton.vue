@@ -9,6 +9,7 @@ const isLogin = computed(() => {
   return !!token
 })
 
+
 const handleLogout = () => {
   localStorage.removeItem('token')
   sessionStorage.removeItem('token')
@@ -17,7 +18,7 @@ const handleLogout = () => {
 }
 </script>
 
-<template>  
+<template>
 <div>
   <div v-if="!isLogin" class="d-flex ms-3">
     <RouterLink to="/loginpage">

@@ -32,7 +32,7 @@ onMounted(async () => {
         <h4 class="text-warning mt-4">Rp{{ product.final_price }}</h4>
         <p>Stock: {{ product.product_stock }}</p>
 
-        <div v-if="product.product_feature && product.product_feature.length > 0" class="mt-4 text-start">
+        <div v-if="product.product_feature && product.product_feature.length > 0" class="mt-4 text-start text-decoration-none">
           <h5 class="fw-bold text-white mb-2">Fitur Utama:</h5>
           <ul class="text-muted" style="padding-left: 1.5rem;">
             <li v-for="(feature, index) in product.product_feature" :key="index" class="mb-2">

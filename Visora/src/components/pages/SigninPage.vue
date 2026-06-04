@@ -9,11 +9,9 @@ const router = useRouter()
 const handleRegister = async (formData) => {
   try {
     const res = await register  (formData)
-
     localStorage.setItem('token', res.token)
-
+    localStorage.setItem('user', JSON.stringify(res.user))
     alert('Register berhasil 🎉')
-
     router.push('/')
   } catch (err) {
     console.error(err)
